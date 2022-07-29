@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 
 # TODO:
-# Fix documentation install directory
+# Fix documentation install directory (upstream bug?)
 # Add CNC category to graphical menu drop-down
 # Implement USE flags
 # Check for PREEMPT_RT
@@ -37,7 +37,6 @@ RDEPEND="
 	dev-tcltk/blt
 	dev-tcltk/bwidget
 	dev-tcltk/tclx
-	media-libs/mesa
 	sys-devel/gettext
 	sys-libs/ncurses
 	sys-libs/readline
@@ -45,6 +44,7 @@ RDEPEND="
 	sys-process/psmisc
 	virtual/libudev
 	virtual/libusb:1
+	virtual/opengl
 	x11-base/xorg-server
 	x11-libs/libXinerama
 	x11-libs/gtk+:2
@@ -75,16 +75,18 @@ src_install()
 
 	python_optimize
 
+	# Create environment required to start LinuxCNC
+	local envd="${T}/99linuxcnc"
+	cat > "${envd}" <<-EOF
+		TCLLIBPATH="/usr/lib/tcltk/linuxcnc"
+	EOF
+
+	doenvd "${envd}"
+
 	# Install menus and icons (don't know how to make CNC category in menu)
 	doicon "${S_TOP}/debian/extras/usr/share/icons/hicolor/scalable/apps/${PN}-logo.svg"
 	doicon "${S_TOP}/debian/extras/usr/share/icons/hicolor/scalable/apps/${PN}icon.svg"
-	newmenu "${S_TOP}/debian/extras/usr/share/applications/${PN}.desktop" "${PN}.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-documentation.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-gcoderef.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-gettingstarted.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-integratorinfo.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-latency.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-manualpages.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-pncconf.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-stepconf.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}.desktop"
@@ -98,6 +100,7 @@ src_install()
 
 pkg_postinst() {
 	ewarn "WARNING: Non-distributable build has been enabled!"
+	ewarn ""
 	ewarn "The LinuxCNC binary you are building may not be distributable"
 	ewarn "due to a license incompatibility with LinuxCNC (some portions"
 	ewarn "GPL-2 only) and Readline version 6 and greater (GPL-3 or later)."
