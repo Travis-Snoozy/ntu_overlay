@@ -89,9 +89,11 @@ src_install()
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-stepconf.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}.desktop"
 
+	# Do not compress documentation, .ini files need to be readily accessible
+	docompress -x "/usr/share/doc/${PN}/examples"
+
 	# Force install of nc_files directory to fix broken symlink
-	# Most configs still don't show up (such as sim axis, only about 15 show up)
-	cp -aL "${S_TOP}"/nc_files "${D}/usr/share/doc/${PN}/examples/"
+	cp -aL "${S_TOP}/nc_files" "${D}/usr/share/doc/${PN}/examples/"
 }
 
 pkg_postinst() {
