@@ -12,7 +12,7 @@ EAPI=8
 
 PYTHON_COMPAT=( python3_{8..11} )
 
-inherit autotools desktop git-r3 python-single-r1 python-utils-r1 toolchain-funcs xdg-utils
+inherit desktop git-r3 python-single-r1 python-utils-r1 xdg-utils
 
 DESCRIPTION="An open source CNC machine controller"
 HOMEPAGE="https://www.linuxcnc.org/"
@@ -37,7 +37,6 @@ RDEPEND="
 	dev-tcltk/blt
 	dev-tcltk/bwidget
 	dev-tcltk/tclx
-	dev-tcltk/tkimg
 	media-libs/mesa
 	sys-devel/gettext
 	sys-libs/ncurses
@@ -89,6 +88,10 @@ src_install()
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-pncconf.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-stepconf.desktop"
 	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}.desktop"
+
+	# Force install of nc_files directory to fix broken symlink
+	# Most configs still don't show up (such as sim axis, only about 15 show up)
+	cp -aL "${S_TOP}"/nc_files "${D}/usr/share/doc/${PN}/examples/"
 }
 
 pkg_postinst() {
