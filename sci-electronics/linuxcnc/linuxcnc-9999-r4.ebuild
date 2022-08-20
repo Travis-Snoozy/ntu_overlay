@@ -24,14 +24,14 @@ KEYWORDS="~amd64 ~x86"
 
 RDEPEND="
 	${PYTHON_DEPS}
-	>=dev-lang/python-3.8.13[tk]
-	dev-lang/tcl
-	dev-lang/tk
+	$(python_gen_impl_dep 'tk(+)')
 	$(python_gen_cond_dep '
 		>=dev-libs/boost-1.79[python,${PYTHON_USEDEP}]
 		dev-python/pyopengl[${PYTHON_USEDEP}]
 		dev-python/yapps2[${PYTHON_USEDEP}]
 	')
+	dev-lang/tcl
+	dev-lang/tk
 	dev-libs/glib
 	dev-libs/libmodbus
 	dev-tcltk/blt
@@ -86,10 +86,11 @@ src_install()
 	# Install menus and icons (don't know how to make CNC category in menu)
 	doicon "${S_TOP}/debian/extras/usr/share/icons/hicolor/scalable/apps/${PN}-logo.svg"
 	doicon "${S_TOP}/debian/extras/usr/share/icons/hicolor/scalable/apps/${PN}icon.svg"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-latency.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-pncconf.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}-stepconf.desktop"
-	domenu "${S_TOP}/debian/extras/usr/share/applications/${PN}.desktop"
+	domenu "${S_TOP}/share/applications/${PN}-latency.desktop"
+	domenu "${S_TOP}/share/applications/${PN}-latency-histogram.desktop"
+	domenu "${S_TOP}/share/applications/${PN}-pncconf.desktop"
+	domenu "${S_TOP}/share/applications/${PN}-stepconf.desktop"
+	domenu "${S_TOP}/share/applications/${PN}.desktop"
 
 	# Do not compress documentation, .ini files need to be readily accessible
 	docompress -x "/usr/share/doc/${PN}/examples"
