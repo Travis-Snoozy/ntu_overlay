@@ -50,7 +50,9 @@ RDEPEND="
 	x11-libs/gtk+:2
 	x11-libs/gtk+:3
 "
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+	app-text/asciidoc
+"
 
 S_TOP="${S}"
 S="${S}/src"
