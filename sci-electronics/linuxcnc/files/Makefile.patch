@@ -1,0 +1,11 @@
+--- src/Makefile        2023-04-30 19:02:32.284246088 -0700
++++ src/Makefile        2023-04-30 19:02:42.170992780 -0700
+@@ -733,7 +733,7 @@
+        $(EXE) ../scripts/halreport $(DESTDIR)$(bindir)
+        $(FILE) $(filter ../lib/%.a ../lib/%.so.0,$(TARGETS)) $(DESTDIR)$(libdir)
+        cp --no-dereference $(wildcard ../lib/*.so) $(DESTDIR)$(libdir)
+-       -ldconfig $(DESTDIR)$(libdir)
++       #-ldconfig $(DESTDIR)$(libdir)
+        $(FILE) ../lib/linuxcnc/canterp.so $(DESTDIR)$(libdir)/linuxcnc/
+        $(FILE) $(HEADERS) $(DESTDIR)$(includedir)/linuxcnc/
+        $(TREE) $(NC_FILES) $(DESTDIR)$(ncfilesdir)
