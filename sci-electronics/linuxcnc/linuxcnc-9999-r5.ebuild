@@ -14,6 +14,10 @@ PYTHON_COMPAT=( python3_{8..11} )
 
 inherit desktop git-r3 python-single-r1 python-utils-r1 xdg-utils
 
+PATCHES=(
+	"${FILESDIR}/Makefile.patch"
+)
+
 DESCRIPTION="An open source CNC machine controller"
 HOMEPAGE="https://www.linuxcnc.org/"
 EGIT_REPO_URI="https://github.com/LinuxCNC/linuxcnc.git"
@@ -29,6 +33,7 @@ RDEPEND="
 		>=dev-libs/boost-1.79[python,${PYTHON_USEDEP}]
 		dev-python/pyopengl[${PYTHON_USEDEP}]
 		dev-python/yapps2[${PYTHON_USEDEP}]
+		dev-python/pygobject[${PYTHON_USEDEP}]
 	')
 	dev-lang/tcl
 	dev-lang/tk
